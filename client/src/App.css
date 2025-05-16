@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+
+.toas-failed{
+    background-color: brown;
+    color: aliceblue;
+}
