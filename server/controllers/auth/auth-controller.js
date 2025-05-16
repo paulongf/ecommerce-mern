@@ -82,26 +82,39 @@ const loginUser = async(req, res) =>{
 
 
 //logout
-const logout = async(req, res) =>{
-
-
-    try {
-        
-    } catch (e) {
-        console.log(e);
-        res.status(500).json({
-            success: false,
-            message: 'Some error occured'
-        })
-    }
+const logoutUser = async(req, res) =>{
+    res.clearCookie('token').json({
+      success : true,
+      message : 'Logged out successfully!'
+    })
 }
 
 
 
 //auth middleware
+const authMiddleware = async(req, res, next) =>{
+    const token = req.cookies.token;
+    if(!token) return res.status(401).json({
+      success : false,
+      message : 'Unauthorized user.'
+    });
+
+    try {
+      const decoded = jwt.verify(token, 'CLIENT_SECRET_KEY');
+      req.user = decoded;
+      next();
+
+
+    } catch (error) {
+      res.status(401).json({
+        success : false,
+        message : 'Unauthorized user.'
+      })
+    }
+}
 
 
 
 
 
-module.exports = {registerUser, loginUser};
+module.exports = {registerUser, loginUser, logoutUser, authMiddleware};
