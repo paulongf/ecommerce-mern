@@ -27,22 +27,21 @@ function AuthLogin() {
                 toast(
                     <div>
                       <strong className="text-lg text-green-800">{data?.payload?.message}</strong>
-                      <p className="text-sm text-green-500 text-muted-foreground">Welcome to our page.</p>
+                      <p className="text-sm text-green-800 text-muted-foreground">Welcome to our page.</p>
                     </div>,
                     {
-                        duration: 5000,
-                        
+                        duration: 4000, 
                     }
                   );
-                navigate('/auth/login');
+           
               } else {
-                toast.error(
+                toast(
                     <div>
                       <strong className="text-lg text-red-600">Login failed!</strong>
                       <p className="text-sm text-red-400 text-muted-foreground">{data?.payload?.message}</p>
                     </div>,
                     {
-                        duration: 5000,
+                        duration: 4000,
                     }
                   );
               }

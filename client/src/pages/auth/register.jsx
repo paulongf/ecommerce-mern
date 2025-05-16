@@ -27,7 +27,7 @@ function AuthRegister() {
               {/* <p className="text-sm text-green-500 text-muted-foreground">Welcome to our page.</p> */}
             </div>,
             {
-                duration: 5000
+                duration: 4000
             }
           );
         navigate('/auth/login');
@@ -38,7 +38,7 @@ function AuthRegister() {
               <p className="text-sm text-red-400 text-muted-foreground">{data?.payload?.message}</p>
             </div>,
             {
-                duration: 5000,
+                duration: 4000,
             }
           );
       }

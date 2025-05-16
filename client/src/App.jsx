@@ -16,28 +16,41 @@ import ShoppingAccount from './pages/shopping-view/account'
 import ShoppingCheckout from './pages/shopping-view/checkout'
 import CheckAuth from './components/common/check-auth'
 import UnauthPage from './pages/unauth-page'
+import { useSelector } from 'react-redux'
 
 function App() {
-
-  const isAuthenticated = false;
-  const user = null;
+  const {user, isAuthenticated} = useSelector((state)=> state.auth);
 
   return (
-    <div className='flex flex-col overflow-hidden bg-white'>
+     <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
-        <Route path='/auth' element={
-          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-            <AuthLayout/>
-          </CheckAuth>
-        }>
-          <Route path='login' element={<AuthLogin/>}/>
-          <Route path='register' element={<AuthRegister/>}/>
+        <Route
+          path="/"
+          element={
+            <CheckAuth
+              isAuthenticated={isAuthenticated}
+              user={user}
+            ></CheckAuth>
+          }
+        />
+        <Route
+          path="/auth"
+          element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <AuthLayout />
+            </CheckAuth>
+          }
+        >
+          <Route path="login" element={<AuthLogin />} />
+          <Route path="register" element={<AuthRegister />} />
         </Route>
-        <Route path='/admin' element={
-          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-            <AdminLayout/>
-          </CheckAuth>
-        }>
+        <Route
+          path="/admin"
+          element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <AdminLayout />
+            </CheckAuth>
+          }>
           <Route path='dashboard' element={<AdminDashboard/>}/>
           <Route path='products' element={<AdminProducts/>}/>  
           <Route path='orders' element={<AdminOrders/>}/> 
