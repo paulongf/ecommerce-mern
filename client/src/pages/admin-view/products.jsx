@@ -3,7 +3,15 @@ import CommonForm from "@/components/common/form";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { addProductFormElements } from "@/config";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addNewProduct,
+  deleteProduct,
+  editProduct,
+  fetchAllProducts,
+} from "@/store/admin/products-slice";
+import { toast } from "sonner";
 
 
 const initialFormData = {
@@ -25,10 +33,39 @@ function AdminProducts() {
     const [uploadedImageUrl, setUploadedImageUrl] = useState('');
     const [imageLoadingState, setImageLoadingState] = useState(false);
     const [currentEditedId, setCurrentEditedId] = useState(null);
+    const {productList} = useSelector(state=>state.adminProducts)
+    const dispatch = useDispatch()
 
-    function onSubmit(){
+    function onSubmit(event){
+        event.preventDefault();
+        dispatch(addNewProduct({
+            ...formData,
+            image : uploadedImageUrl
+        })).then((data) => {
+           // console.log(data)
+           if(data?.payload?.success){
+            setImageFile(null);
+            setFormData(initialFormData);
+            setOpenCreateProductsDialog(false);
+             toast(
+                    <div>
+                        <strong className="text-lg text-green-800">Product added successfully!</strong>
+                        <p className="text-sm text-green-800 text-muted-foreground">The new product is now available in the catalog.</p>
+                    </div>,
+                    {
+                        duration: 4000, 
+                    }
+                  );
+           }
+        })
 
     }
+
+     useEffect(() => {
+    dispatch(fetchAllProducts());
+  }, [dispatch]);
+
+  //console.log(productList, uploadedImageUrl, "productList");
 
     return (
         <Fragment>
@@ -48,6 +85,7 @@ function AdminProducts() {
                         uploadedImageUrl={uploadedImageUrl}
                         setUploadedImageUrl={setUploadedImageUrl}
                         setImageLoadingState={setImageLoadingState}
+                        imageLoadingState={imageLoadingState}
                         />
                         
                     <div >
