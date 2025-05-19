@@ -12,6 +12,7 @@ import {
   fetchAllProducts,
 } from "@/store/admin/products-slice";
 import { toast } from "sonner";
+import AdminProductTile from "@/components/admin-view/product-tile";
 
 
 const initialFormData = {
@@ -73,7 +74,15 @@ function AdminProducts() {
                 <Button onClick={()=> setOpenCreateProductsDialog(true)} className="bg-background-dark text-white inline-flex gap-2
             rounded-md px-5 py-6 text-sm font-medium cursor-pointer shadow items-center">Add New Product</Button>
             </div>
-            <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4"></div>
+            <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
+                {
+                    productList && productList.length > 0 ?
+                    productList.map((productItem, index)=> <div key={index}>
+                        <AdminProductTile key={productItem.id} product={productItem}/>
+                    </div>
+                    ) : null
+                }
+            </div>
             <Sheet  open={openCreateProductsDialog} onOpenChange={()=> setOpenCreateProductsDialog(false)}>
                 <SheetContent side="right" className="overflow-auto py-5 px-6">
                     <SheetHeader>
