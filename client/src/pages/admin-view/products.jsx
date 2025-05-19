@@ -5,6 +5,7 @@ import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle } from "@/comp
 import { addProductFormElements } from "@/config";
 import { Fragment, useState } from "react";
 
+
 const initialFormData = {
     image : null,
     title : '',
@@ -22,6 +23,8 @@ function AdminProducts() {
     const [formData, setFormData] = useState(initialFormData);
     const [imageFile, setImageFile] = useState(null);
     const [uploadedImageUrl, setUploadedImageUrl] = useState('');
+    const [imageLoadingState, setImageLoadingState] = useState(false);
+    const [currentEditedId, setCurrentEditedId] = useState(null);
 
     function onSubmit(){
 
@@ -43,7 +46,10 @@ function AdminProducts() {
                         imageFile={imageFile}
                         setImageFile={setImageFile}
                         uploadedImageUrl={uploadedImageUrl}
-                        setUploadedImageUrl={setUploadedImageUrl}/>
+                        setUploadedImageUrl={setUploadedImageUrl}
+                        setImageLoadingState={setImageLoadingState}
+                        />
+                        
                     <div >
                         <CommonForm
                         formData={formData} setFormData={setFormData}
