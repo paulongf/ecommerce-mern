@@ -53,17 +53,21 @@ function CommonForm({
             value={value}
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder={getControlItem.label} />
-            </SelectTrigger>
-            <SelectContent>
-              {getControlItem.options && getControlItem.options.length > 0
-                ? getControlItem.options.map((optionItem) => (
-                    <SelectItem key={optionItem.id} value={optionItem.id}>
-                      {optionItem.label}
-                    </SelectItem>
-                  ))
-                : null}
-            </SelectContent>
+            <SelectValue placeholder={getControlItem.label} />
+          </SelectTrigger>
+          <SelectContent className="bg-background">
+            {getControlItem.options && getControlItem.options.length > 0
+              ? getControlItem.options.map((optionItem) => (
+                  <SelectItem
+                    key={optionItem.id}
+                    value={optionItem.id}
+                    className="hover:bg-blue-100 transition-shadow duration-200"
+                  >
+                    {optionItem.label}
+                  </SelectItem>
+                ))
+              : null}
+          </SelectContent>
           </Select>
         );
 
