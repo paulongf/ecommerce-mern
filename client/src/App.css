@@ -49,9 +49,15 @@
   text-underline-offset: 2px;
 }
 
+.shoppingMenuText{
+  color: #0F172A;
+}
+
 .productCard{
   min-width: 250px;
 }
+
+
 
 
 /* Skeleton*/
