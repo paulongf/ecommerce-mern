@@ -66,10 +66,12 @@ function HeaderRightContent(){
     }
 
     return <div className="flex lg:items-center lg:flex-row flex-col gap-4">
-        <Button  className="border border-gray-200 p-4 cursor-pointer">
-                <ShoppingCart className="h-6 w-6"/>
-                <span className="sr-only">User Cart</span>
-        </Button>
+                <div className="max-w-40">
+                     <Button  className="border border-gray-200 relative p-4 cursor-pointer">
+                            <ShoppingCart className="h-6 w-6"/>
+                            <span className="sr-only">User Cart</span>
+                    </Button>
+                </div>
                 <DropdownMenu >
                     <DropdownMenuTrigger asChild>
                         <Avatar className="bg-black p-5 cursor-pointer">
@@ -124,7 +126,6 @@ function ShoppingHeader() {
         <div className="hidden lg:block">
           <MenuItems />
         </div>
-
         <div className="hidden lg:block">
           <HeaderRightContent />
         </div>
