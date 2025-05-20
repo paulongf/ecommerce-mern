@@ -36,13 +36,21 @@
    background-color: #0c4a6e; 
 }
 
-.productCard{
-  min-width: 250px;
+.sideMenuText {
+  color: #4B5563; /* Cinza escuro */
+  transition: color 0.2s ease;
+  font-weight: 600;
 }
-/* Só o texto sublinha no hover da div */
-.menu-item:hover .menu-label {
+
+.sideMenuText:hover,
+.sideMenuText.active {
+  color: #0F172A; /* Azul quase preto */
   text-decoration: underline;
   text-underline-offset: 2px;
+}
+
+.productCard{
+  min-width: 250px;
 }
 
 
