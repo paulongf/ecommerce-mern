@@ -49,6 +49,10 @@
   text-underline-offset: 2px;
 }
 
+.text-primary{
+  color: #0F172A;
+}
+
 .shoppingMenuText{
   color: #0F172A;
 }
