@@ -4,8 +4,12 @@
 .bg-background{
   background-color: #f4f4f5;
 }
+.headerStyle{
+  border-bottom: solid 1px gray;
+  border: solid 1;
+}
 .bg-background-dark{
-  background-color: #05080e;
+  background-color: #071516;
 }
 
 .menu-item {
@@ -23,6 +27,18 @@
   background-color: hsl(var(--muted));
 }
 
+.buttonStyle{
+  background-color: #071516;
+  color: white;
+  cursor: pointer;
+}
+.buttonStyle:hover{
+   background-color: #0c4a6e; 
+}
+
+.productCard{
+  min-width: 250px;
+}
 /* Só o texto sublinha no hover da div */
 .menu-item:hover .menu-label {
   text-decoration: underline;
