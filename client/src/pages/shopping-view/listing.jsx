@@ -4,13 +4,15 @@ import ShoppingProductTile from "@/components/shopping-view/product-tile";
 import { Button } from "@/components/ui/button";
 import { DropdownMenuRadioGroup } from "@/components/ui/dropdown-menu";
 import { sortOptions } from "@/config";
+import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { fetchAllFilteredProducts, fetchProductDetails } from "@/store/shop/products-slice";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuRadioItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
-import { ArrowUpDownIcon } from "lucide-react";
+import { ArrowUpDownIcon, Check, CircleCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSearchParams, useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
 
 function createSearchParamsHelper(filterParams) {
   const queryParams = [];
@@ -30,14 +32,16 @@ function createSearchParamsHelper(filterParams) {
 
 function ShoppingListing() {
 
+    const {user} = useSelector((state)=>state.auth);
     const dispatch = useDispatch();
     const {productList, productDetails} = useSelector(state=> state.shopProducts);
+    const {cartItems} = useSelector((state)=> state.shopCart);
     const [filters, setFilters] = useState({});
     const [sort, setSort] = useState(null);
     const [searchParams, setSearchParams] = useSearchParams();
     const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
 
-      function handleSort(value) {
+  function handleSort(value) {
     setSort(value);
   }
 
@@ -69,6 +73,30 @@ function ShoppingListing() {
     dispatch(fetchProductDetails(getCurrentProductId))
   }
 
+  function handleAddToCart(getCurrentProductId){
+    //console.log(getCurrentProductId)
+    dispatch(addToCart(
+      {
+        userId: user?.id, 
+        productId: getCurrentProductId, 
+        quantity: 1 
+      }))
+    .then((data)=> {
+      if(data?.payload.success){
+        dispatch(fetchCartItems(user?.id));
+          toast(
+                    <div className="flex gap-3 items-center">
+                      <p className="text-[18px] font-semibold text-green-600">Product added to your cart.</p>
+                      <CircleCheck stroke="#16a34a"  className="w-5 h-5" />
+                    </div>,
+                    {
+                        duration: 8000, 
+                    }
+                  );
+      }
+    })
+  }
+
     useEffect(()=> {
         setSort("price-lowtohigh")
         setFilters(JSON.parse(sessionStorage.getItem('filters')) || {})
@@ -90,7 +118,7 @@ function ShoppingListing() {
         if(productDetails !== null) setOpenDetailsDialog(true);
     }, [productDetails])
 
-
+   // console.log(cartItems)
    // console.log(productList)
 
     return <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
@@ -136,7 +164,10 @@ function ShoppingListing() {
                     productList && productList.length > 0 ?
                     productList.map((prodctItem, index) => (
                     <div key={prodctItem.id || index}>
-                        <ShoppingProductTile handleGetProductDetails={handleGetProductDetails} product={prodctItem} />
+                        <ShoppingProductTile 
+                        handleGetProductDetails={handleGetProductDetails}
+                        handleAddToCart={handleAddToCart} 
+                        product={prodctItem} />
                     </div>
                     )) 
                     : null

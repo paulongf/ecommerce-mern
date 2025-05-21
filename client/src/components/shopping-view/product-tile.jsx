@@ -5,12 +5,12 @@ import { Card, CardContent, CardFooter } from "../ui/card";
 
 
 
-function ShoppingProductTile({product, handleGetProductDetails}){
+function ShoppingProductTile({product, handleGetProductDetails, handleAddToCart}){
     return (
         <div>
             <Card className="w-full border border-gray-200 max-w-sm mx-auto">
-                <div onClick={()=> handleGetProductDetails(product?._id)}>
-                    <div className="relative">
+                <div>
+                    <div onClick={()=> handleGetProductDetails(product?._id)} className="relative">
                         <img src={product?.image}
                             alt={product?.title}
                             className="w-full h-[300px] object-cover rounded-t-lg"
@@ -49,7 +49,7 @@ function ShoppingProductTile({product, handleGetProductDetails}){
 
                     </CardContent>
                     <CardFooter>
-                        <Button className="buttonStyle w-full">Add to Cart</Button>
+                        <Button onClick={()=> handleAddToCart(product?._id)} className="buttonStyle w-full">Add to Cart</Button>
                     </CardFooter>
                 </div>
 

@@ -9,10 +9,10 @@ const Toaster = ({
   return (
     <Sonner
       theme={theme}
-      className="toaster group"
+      className="toaster group z-[9999]"
       style={
         {
-          "--normal-bg": "var(--popover)",
+          "--normal-bg": "#f4f4f5",
           "--normal-text": "var(--popover-foreground)",
           "--normal-border": "var(--border)"
         }
