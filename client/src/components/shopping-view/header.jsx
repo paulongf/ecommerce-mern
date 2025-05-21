@@ -14,8 +14,10 @@ import { Label } from "../ui/label";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "../ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { logoutUser } from "@/store/auth-slice";
+import UserCartWrapper from "./cart-wrapper";
+import { fetchCartItems } from "@/store/shop/cart-slice";
 
 function MenuItems(){
     const navigate = useNavigate();
@@ -58,20 +60,36 @@ function MenuItems(){
 
 function HeaderRightContent(){
     const {user} = useSelector((state) => state.auth);
+    const { cartItems } = useSelector((state) => state.shopCart);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [openCartSheet, setOpenCartSheet] = useState(false);
 
     function handleLogout(){
         dispatch(logoutUser());
-    }
+    };
+
+    useEffect(()=> {
+      dispatch(fetchCartItems(user?.id))
+    }, [dispatch, user?.id])
 
     return <div className="flex lg:items-center lg:flex-row flex-col gap-4">
-                <div className="max-w-40">
-                     <Button  className="border border-gray-200 relative p-4 cursor-pointer">
-                            <ShoppingCart className="h-6 w-6"/>
-                            <span className="sr-only">User Cart</span>
-                    </Button>
-                </div>
+                <Sheet open={openCartSheet} onOpenChange={setOpenCartSheet}>
+                  <div className="max-w-40">
+                      <Button onClick={()=> setOpenCartSheet(true)}  className="border border-gray-200 relative p-4 cursor-pointer">
+                              <ShoppingCart className="h-6 w-6"/>
+                              <span className="sr-only">User Cart</span>
+                      </Button>
+                   </div>
+                    <UserCartWrapper
+                      setOpenCartSheet={setOpenCartSheet}
+                      cartItems={
+                        cartItems && cartItems.items && cartItems.items.length > 0
+                          ? cartItems.items
+                          : []
+                      }
+                    />
+                </Sheet>
                 <DropdownMenu >
                     <DropdownMenuTrigger asChild>
                         <Avatar className="bg-black p-5 cursor-pointer">

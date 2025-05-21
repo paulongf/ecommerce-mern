@@ -11,6 +11,7 @@ const addToCart = async (req, res) => {
         message: "Invalid data provided!",
       });
     }
+    //console.log('userId recebido:', req.params.userId);
 
     const product = await Product.findById(productId);
 
