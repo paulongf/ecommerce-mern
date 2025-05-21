@@ -1,9 +1,10 @@
 import ProductFilter from "@/components/shopping-view/filter";
+import ProductDetailsDialog from "@/components/shopping-view/product-details";
 import ShoppingProductTile from "@/components/shopping-view/product-tile";
 import { Button } from "@/components/ui/button";
 import { DropdownMenuRadioGroup } from "@/components/ui/dropdown-menu";
 import { sortOptions } from "@/config";
-import { fetchAllFilteredProducts } from "@/store/shop/products-slice";
+import { fetchAllFilteredProducts, fetchProductDetails } from "@/store/shop/products-slice";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuRadioItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { ArrowUpDownIcon } from "lucide-react";
@@ -30,10 +31,11 @@ function createSearchParamsHelper(filterParams) {
 function ShoppingListing() {
 
     const dispatch = useDispatch();
-    const {productList} = useSelector(state=> state.shopProducts);
+    const {productList, productDetails} = useSelector(state=> state.shopProducts);
     const [filters, setFilters] = useState({});
     const [sort, setSort] = useState(null);
     const [searchParams, setSearchParams] = useSearchParams();
+    const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
 
       function handleSort(value) {
     setSort(value);
@@ -60,6 +62,11 @@ function ShoppingListing() {
    // console.log(cpyFilters)
     setFilters(cpyFilters);
     sessionStorage.setItem("filters", JSON.stringify(cpyFilters));
+  };
+
+  function handleGetProductDetails(getCurrentProductId){
+    //console.log(getCurrentProductId);
+    dispatch(fetchProductDetails(getCurrentProductId))
   }
 
     useEffect(()=> {
@@ -79,11 +86,15 @@ function ShoppingListing() {
     dispatch(fetchAllFilteredProducts({filterParams: filters, sortParams: sort}));
 }, [dispatch, sort, filters]);
 
+    useEffect(()=>{
+        if(productDetails !== null) setOpenDetailsDialog(true);
+    }, [productDetails])
+
 
    // console.log(productList)
 
     return <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
-        <ProductFilter filters={filters} handleFilter={handleFilter}/>
+        <ProductFilter filters={filters} handleFilter={handleFilter}/>     
         <div className="bg-background w-full rounded-lg shadow-sm">
             <div className="p-4 border-b flex border-gray-200 items-center justify-between">
                 <h2 className="text-lg font-extrabold">All Products</h2>
@@ -125,13 +136,14 @@ function ShoppingListing() {
                     productList && productList.length > 0 ?
                     productList.map((prodctItem, index) => (
                     <div key={prodctItem.id || index}>
-                        <ShoppingProductTile product={prodctItem} />
+                        <ShoppingProductTile handleGetProductDetails={handleGetProductDetails} product={prodctItem} />
                     </div>
                     )) 
                     : null
                 }
             </div>
         </div>
+        <ProductDetailsDialog open={openDetailsDialog} setOpen={setOpenDetailsDialog} productDetails={productDetails}/>
     </div>
 };
 

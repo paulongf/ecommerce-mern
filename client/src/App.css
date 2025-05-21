@@ -31,7 +31,9 @@
   background-color: #071516;
   color: white;
   cursor: pointer;
+  
 }
+
 .buttonStyle:hover{
    background-color: #0c4a6e; 
 }
@@ -47,6 +49,10 @@
   color: #0F172A; /* Azul quase preto */
   text-decoration: underline;
   text-underline-offset: 2px;
+}
+
+.text-primary{
+  color: #0F172A;
 }
 
 .shoppingMenuText{
