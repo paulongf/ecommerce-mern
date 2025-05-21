@@ -1,4 +1,9 @@
+import { StarIcon } from "lucide-react";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
+import { Separator } from "../ui/separator";
+import { Input } from "../ui/input";
 
 
 function ProductDetailsDialog({open, setOpen, productDetails}){
@@ -32,6 +37,89 @@ function ProductDetailsDialog({open, setOpen, productDetails}){
                                 ${productDetails?.salePrice}
                             </p>
                             ) : null}
+                        </div>
+                        <div className="flex items-center gap-2 mt-2">
+                             <div className="flex items-center gap-0.5">
+                                <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                             </div>
+                             <span className="text-gray-500">(4.5)</span>
+                        </div>
+                        <div className="mt-5 mb-5">
+                            <Button className="buttonStyle w-full py-5">
+                                Add to cart
+                            </Button>
+                        </div>
+                        <Separator/>
+                        <div className="max-h-[300px] overflow-auto">
+                            <h2 className="text-xl font-bold mb-4">Reviews</h2>
+                            <div className="grid gap-6">
+                                <div className="flex gap-4">
+                                    <Avatar className="w-10 h-10 border border-gray-200">
+                                        <AvatarFallback>PG</AvatarFallback>
+                                    </Avatar>
+                                    <div className="grid gap-1">
+                                        <div className="flex items-center gap-2">
+                                            <h3 className="font-bold">Paulo Gama</h3>
+                                        </div>
+                                        <div className="flex items-center gap-0.5">
+                                            <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                            <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                            <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                            <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                            <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                        </div>
+                                        <p className="text-gray-500">This is an awesome product</p>
+                                    </div>
+                                </div>
+                            </div>
+                              <div className="grid gap-6">
+                                <div className="flex gap-4">
+                                    <Avatar className="w-10 h-10 border border-gray-200">
+                                        <AvatarFallback>PG</AvatarFallback>
+                                    </Avatar>
+                                    <div className="grid gap-1">
+                                        <div className="flex items-center gap-2">
+                                            <h3 className="font-bold">Paulo Gama</h3>
+                                        </div>
+                                        <div className="flex items-center gap-0.5">
+                                            <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                            <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                            <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                            <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                            <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                        </div>
+                                        <p className="text-gray-500">This is an awesome product</p>
+                                    </div>
+                                </div>
+                            </div>
+                              <div className="grid gap-6">
+                                <div className="flex gap-4">
+                                    <Avatar className="w-10 h-10 border border-gray-200">
+                                        <AvatarFallback>PG</AvatarFallback>
+                                    </Avatar>
+                                    <div className="grid gap-1">
+                                        <div className="flex items-center gap-2">
+                                            <h3 className="font-bold">Paulo Gama</h3>
+                                        </div>
+                                        <div className="flex items-center gap-0.5">
+                                            <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                            <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                            <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                            <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                            <StarIcon stroke="#071516" fill="#071516" className="w-5 h-5 "/>
+                                        </div>
+                                        <p className="text-gray-500">This is an awesome product</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="mt-6 flex gap-2">
+                                <Input placeholder="Write a review..." className="border border-gray-200"/>
+                                <Button className="buttonStyle">Submit</Button>
+                            </div>
                         </div>
                 </div>
             </DialogContent>
