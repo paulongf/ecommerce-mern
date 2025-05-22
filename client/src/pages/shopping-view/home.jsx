@@ -16,14 +16,18 @@ import {
   UmbrellaIcon,
   WashingMachine,
   WatchIcon,
+  CircleCheck
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllFilteredProducts } from "@/store/shop/products-slice";
+import { fetchAllFilteredProducts, fetchProductDetails } from "@/store/shop/products-slice";
+import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import ShoppingProductTile from "@/components/shopping-view/product-tile";
 import { Separator } from "@/components/ui/separator";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, createSearchParams } from "react-router-dom";
+import { toast } from "sonner";
+import ProductDetailsDialog from "@/components/shopping-view/product-details";
 
 const categoriesWithIcon = [
   { id: "men", label: "Men", icon: ShirtIcon },
@@ -45,10 +49,12 @@ const categoriesWithIcon = [
 function ShoppingHome() {
 
     const [currentSlide, setCurrentSlide] = useState(0);
-    const {productList} = useSelector((state)=> state.shopProducts)
+    const {productList, productDetails} = useSelector((state)=> state.shopProducts);
+    const {user} = useSelector((state)=> state.auth);
     const slides = [bannerOne, bannerTwo, bannerThree];
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
 
     function handleNavigateToListingPage(getCurrentItem, section){
         sessionStorage.removeItem('filters');
@@ -57,7 +63,35 @@ function ShoppingHome() {
         }
         sessionStorage.setItem('filters', JSON.stringify(currentFilter));
         navigate(`/shop/listing`)
-    }
+    };
+
+    function handleGetProductDetails(getCurrentProductId){
+        dispatch(fetchProductDetails(getCurrentProductId))
+      };
+
+     function handleAddToCart(getCurrentProductId){
+    //console.log(getCurrentProductId)
+    dispatch(addToCart(
+      {
+        userId: user?.id, 
+        productId: getCurrentProductId, 
+        quantity: 1 
+      }))
+    .then((data)=> {
+      if(data?.payload.success){
+        dispatch(fetchCartItems(user?.id));
+          toast(
+                    <div className="flex gap-3 items-center">
+                      <p className="text-[18px] font-semibold text-green-600">Product added to your cart.</p>
+                      <CircleCheck stroke="#16a34a"  className="w-5 h-5" />
+                    </div>,
+                    {
+                        duration: 8000, 
+                    }
+                  );
+      }
+    })
+  }
 
     useEffect(()=> {
         const timer = setInterval(()=>{
@@ -70,6 +104,10 @@ function ShoppingHome() {
     useEffect(()=> {
         dispatch(fetchAllFilteredProducts({filterParams : {}, sortParams : 'price-lowtohigh'}))
     },[dispatch]);
+
+     useEffect(()=>{
+        if(productDetails !== null) setOpenDetailsDialog(true);
+    }, [productDetails])
 
         
     return (
@@ -98,6 +136,7 @@ function ShoppingHome() {
                         <ChevronRightIcon className="w-4 h-4"/>
                     </Button>
             </div>
+            {/*Category's filter section */}
             <section className="py-12 bg-gray-50">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl font-bold text-center mb-8">Shop by Category</h2>
@@ -114,6 +153,7 @@ function ShoppingHome() {
                     </div>
                 </div>
             </section>
+            {/*Brand's filter section */}
             <section className="py-12 bg-gray-50">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl font-bold text-center mb-8">Shop by Brand</h2>
@@ -130,6 +170,7 @@ function ShoppingHome() {
                     </div>
                 </div>
             </section>
+            {/* Products section */}
             <section className="py-12"> 
                         <div className="container mx-auto px-4">
                             <h2 className="text-3xl font-bold text-center mb-8">Feature Products</h2>
@@ -138,12 +179,13 @@ function ShoppingHome() {
                             {
                                 productList && productList.length > 0 ?
                                 productList.map((productItem, index) => (<div key={index}>
-                                    <ShoppingProductTile product={productItem}/>
+                                    <ShoppingProductTile handleAddToCart={handleAddToCart} handleGetProductDetails={handleGetProductDetails} product={productItem}/>
                                 </div>)) : null
 
                             }
                         </div>
             </section>
+                    <ProductDetailsDialog open={openDetailsDialog} setOpen={setOpenDetailsDialog} productDetails={productDetails}/>
         </div>
     )
 };
