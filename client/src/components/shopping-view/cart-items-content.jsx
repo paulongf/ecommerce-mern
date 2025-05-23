@@ -22,7 +22,7 @@ function UserCartItemsContent({cartItem}){
         if(data?.payload.success){
            toast(
           <div className="flex gap-3 items-center z-50">
-            <p className="text-[18px] font-semibold text-green-600">
+            <p className="text-[16px] font-semibold text-green-600">
               {
                 typeOfAction === 'plus' ? '1 unit added to your cart.' : 
                 '1 unit removed from your cart.'

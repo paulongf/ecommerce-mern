@@ -25,7 +25,7 @@ function CommonForm({
     switch (getControlItem.componentType) {
       case "input":
         element = (
-          <Input
+          <Input className="border border-gray-200"
             name={getControlItem.name}
             placeholder={getControlItem.placeholder}
             id={getControlItem.name}
@@ -74,7 +74,7 @@ function CommonForm({
         break;
       case "textarea":
         element = (
-          <Textarea
+          <Textarea className="border border-gray-200"
             name={getControlItem.name}
             placeholder={getControlItem.placeholder}
             id={getControlItem.id}

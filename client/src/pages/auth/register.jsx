@@ -23,7 +23,7 @@ function AuthRegister() {
       if (data?.payload?.success) {
         toast(
             <div>
-              <strong className="text-lg text-green-800">Registration successful!</strong>
+              <strong className="text-[16px] text-green-800">Registration successful!</strong>
               {/* <p className="text-sm text-green-500 text-muted-foreground">Welcome to our page.</p> */}
             </div>,
             {
@@ -34,8 +34,8 @@ function AuthRegister() {
       } else {
         toast(
             <div>
-              <strong className="text-lg text-red-600">Registration failed!</strong>
-              <p className="text-sm text-red-400 text-muted-foreground">{data?.payload?.message}</p>
+              <strong className="text-[16px] text-red-600">Registration failed!</strong>
+              <p className="text-[14px] text-red-400 text-muted-foreground">{data?.payload?.message}</p>
             </div>,
             {
                 duration: 4000,
