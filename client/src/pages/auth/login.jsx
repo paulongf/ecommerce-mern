@@ -26,8 +26,8 @@ function AuthLogin() {
             if (data?.payload?.success) {
                 toast(
                     <div>
-                      <strong className="text-lg text-green-800">{data?.payload?.message}</strong>
-                      <p className="text-sm text-green-800 text-muted-foreground">Welcome to our page.</p>
+                      <strong className="text-[16px] text-green-800">{data?.payload?.message}</strong>
+                      <p className="text-[14px] text-green-800 text-muted-foreground">Welcome to our page.</p>
                     </div>,
                     {
                         duration: 4000, 
@@ -37,8 +37,8 @@ function AuthLogin() {
               } else {
                 toast(
                     <div>
-                      <strong className="text-lg text-red-600">Login failed!</strong>
-                      <p className="text-sm text-red-400 text-muted-foreground">{data?.payload?.message}</p>
+                      <strong className="text-[16px] text-red-600">Login failed!</strong>
+                      <p className="text-[14px] text-red-400 text-muted-foreground">{data?.payload?.message}</p>
                     </div>,
                     {
                         duration: 4000,

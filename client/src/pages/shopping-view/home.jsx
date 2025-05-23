@@ -24,8 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllFilteredProducts, fetchProductDetails } from "@/store/shop/products-slice";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import ShoppingProductTile from "@/components/shopping-view/product-tile";
-import { Separator } from "@/components/ui/separator";
-import { useNavigate, createSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
 
