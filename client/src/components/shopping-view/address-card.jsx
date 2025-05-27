@@ -4,9 +4,9 @@ import { Label } from "../ui/label";
 
 
 
-function AddressCard({addressInfo, handleDeleteAddress, handleEditedaAddress}){
+function AddressCard({addressInfo, handleDeleteAddress, handleEditedaAddress, setCurrentSelectedAddress}){
     return (
-        <Card className="border border-gray-200">
+        <Card onClick={setCurrentSelectedAddress ? ()=> setCurrentSelectedAddress(addressInfo) : null} className="border border-gray-200">
             
             <CardContent className="grid gap-4 p-4">
                 <Label>

@@ -17,7 +17,7 @@ const initialAddressFormData = {
     notes : ''
 }
 
-function Address(){
+function Address({setCurrentSelectedAddress}){
     const [formData, setFormData] = useState(initialAddressFormData);
     const [currentEditedId, setCurrentEditedId] = useState(null);
     const dispatch = useDispatch();
@@ -146,6 +146,7 @@ function Address(){
                                 addressInfo={singleAddressItem}
                                 handleDeleteAddress={handleDeleteAddress}
                                 handleEditedaAddress={handleEditedaAddress}
+                                setCurrentSelectedAddress={setCurrentSelectedAddress}
                             />
                             </div>
 
