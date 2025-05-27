@@ -2,9 +2,11 @@ import { Check } from "lucide-react";
 import { Button } from "../ui/button";
 import { SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
 import UserCartItemsContent from "./cart-items-content";
+import { useNavigate } from "react-router-dom";
 
 
-function UserCartWrapper({cartItems}){
+function UserCartWrapper({cartItems, setOpenCartSheet}){
+    const navigate = useNavigate();
 
     const totalCartAmount = cartItems && cartItems.length > 0 ?
     cartItems.reduce((sum, currentItem)=> sum + (
@@ -32,7 +34,9 @@ function UserCartWrapper({cartItems}){
                     <span className="font-bold">${totalCartAmount.toFixed(2)}</span>
                 </div>
             </div>
-            <Button className="buttonStyle w-full mt-6">
+            <Button onClick={()=> {navigate('/shop/checkout')
+                setOpenCartSheet(false)}}
+                className="buttonStyle w-full mt-6">
                 <Check/>
                 Checkout
                 </Button>

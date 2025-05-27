@@ -1,21 +1,20 @@
-import { DialogContent } from "@radix-ui/react-dialog";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Dialog, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
-import ShoppingOrderDetailsView from "./order-details";
-import { useState } from "react";
+import AdminOrderDetailsView from "./orders-details";
 
 
-function ShoppingOrders(){
+function AdminOrdersView(){
 
-    const  [opendDetailsDialog, setOpenDetailsDialog] = useState(false);
+    const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
     return (
         <Card className="border border-gray-200">
             <CardHeader>
-                <CardTitle>Order History</CardTitle>
+                <CardTitle>All Orders</CardTitle>
             </CardHeader>
-            <CardContent>
+             <CardContent>
                 <Table className="bg-background">
                     <TableHeader>
                         <TableRow className="border-b border-gray-200">
@@ -35,14 +34,14 @@ function ShoppingOrders(){
                             <TableCell>In process</TableCell>
                             <TableCell>$1000</TableCell>
                             <TableCell>
-                                <Dialog open={opendDetailsDialog} onOpenChange={setOpenDetailsDialog}>
-                                    <Button onClick={()=> setOpenDetailsDialog(true)} className="buttonStyle">
-                                        View Details
-                                    </Button>
+                                <Dialog open={openDetailsDialog} onOpenChange={setOpenDetailsDialog}>
                                     <DialogHeader>
                                         <DialogTitle></DialogTitle>
                                     </DialogHeader>
-                                    <ShoppingOrderDetailsView/>
+                                    <Button onClick={()=> setOpenDetailsDialog(true)} className="buttonStyle">
+                                    View Details
+                                </Button>
+                                <AdminOrderDetailsView/>
                                 </Dialog>
                             </TableCell>
                         </TableRow>
@@ -53,4 +52,4 @@ function ShoppingOrders(){
     )
 }
 
-export default ShoppingOrders;
+export default AdminOrdersView;
