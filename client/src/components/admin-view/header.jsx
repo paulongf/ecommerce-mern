@@ -4,10 +4,6 @@ import { useDispatch } from "react-redux";
 import { logoutUser } from "@/store/auth-slice";
 
 
-
-
-
-
 function AdminHeader({setOpen}) {
 
     const dispatch = useDispatch();

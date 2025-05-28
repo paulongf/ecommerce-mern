@@ -97,7 +97,7 @@ const fetchCartItems = async (req, res) => {
     res.status(200).json({
       success: true,
       data: {
-        ...cart._doc, // aqui vai dar problema se cart não for documento do Mongoose
+        ...cart._doc, 
         items: populateCartItems,
       },
     });
