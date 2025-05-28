@@ -1,14 +1,60 @@
-import { useSelector } from "react-redux";
-import { Badge } from "../ui/badge";
-import { DialogContent } from "../ui/dialog";
+import { useState } from "react";
+import CommonForm from "../common/form";
+import { DialogContent , DialogDescription, DialogHeader} from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
+import { Badge } from "../ui/badge";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllOrdersForAdmin,
+  getOrderDetailsForAdmin,
+  updateOrderStatus,
+} from "@/store/admin/order-slice";
+import { toast } from "sonner";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
-function ShoppingOrderDetailsView({ orderDetails }) {
+
+
+const initialFormData = {
+  status: "",
+};
+
+function AdminOrderDetailsView({ orderDetails }) {
+  const [formData, setFormData] = useState(initialFormData);
   const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+ // console.log(orderDetails, "orderDetailsorderDetails");
+
+  function handleUpdateStatus(event) {
+    event.preventDefault();
+    const { status } = formData;
+
+    dispatch(
+      updateOrderStatus({ id: orderDetails?._id, orderStatus: status })
+    ).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(getOrderDetailsForAdmin(orderDetails?._id));
+        dispatch(getAllOrdersForAdmin());
+        setFormData(initialFormData);
+         toast(
+                    <div className="flex gap-3 items-center">
+                      <p className="text-[16px] font-semibold text-green-600">{data?.payload?.message}</p>
+                    </div>,
+                    {
+                        duration: 8000, 
+                    }
+                  );
+      }
+    });
+  }
 
   return (
-    <DialogContent className="sm:max-w-[600px]" aria-describedby="dialog-description">
+    <DialogContent  className="sm:max-w-[600px]">
+        <DialogHeader><DialogTitle className="font-bold">Order Details</DialogTitle></DialogHeader>
+         <DialogDescription>
+           
+        </DialogDescription>
       <div className="grid gap-6">
         <div className="grid gap-2">
           <div className="flex mt-6 items-center justify-between">
@@ -37,10 +83,10 @@ function ShoppingOrderDetailsView({ orderDetails }) {
               <Badge
                 className={`py-1 px-3 ${
                   orderDetails?.orderStatus === "confirmed"
-                    ? "bg-green-500 text-white p-2 flex items-center justify-center"
+                    ? "bg-green-500 text-white p-2 flex justify-center items-center"
                     : orderDetails?.orderStatus === "rejected"
-                    ? "bg-red-600 text-white p-2 flex items-center justify-center"
-                    : "bg-black text-white p-2 flex items-center justify-center"
+                            ? "bg-red-600 text-white p-2 flex justify-center items-center"
+                            : "bg-black text-white p-2 flex justify-center items-center"
                 }`}
               >
                 {orderDetails?.orderStatus}
@@ -78,9 +124,32 @@ function ShoppingOrderDetailsView({ orderDetails }) {
             </div>
           </div>
         </div>
+
+        <div>
+          <CommonForm
+            formControls={[
+              {
+                label: "Order Status",
+                name: "status",
+                componentType: "select",
+                options: [
+                  { id: "pending", label: "Pending" },
+                  { id: "inProcess", label: "In Process" },
+                  { id: "inShipping", label: "In Shipping" },
+                  { id: "delivered", label: "Delivered" },
+                  { id: "rejected", label: "Rejected" },
+                ],
+              },
+            ]}
+            formData={formData}
+            setFormData={setFormData}
+            buttonText={"Update Order Status"}
+            onSubmit={handleUpdateStatus}
+          />
+        </div>
       </div>
     </DialogContent>
   );
 }
 
-export default ShoppingOrderDetailsView;
+export default AdminOrderDetailsView;
