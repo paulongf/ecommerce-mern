@@ -12,9 +12,33 @@ import { setProductDetails } from "@/store/shop/products-slice";
 
 function ProductDetailsDialog({open, setOpen, productDetails}){
     const {user} = useSelector((state)=>state.auth);
+    const {cartItems} = useSelector((state)=> state.shopCart);
     const dispatch = useDispatch();
 
-     function handleAddToCart(getCurrentProductId){
+     function handleAddToCart(getCurrentProductId, getTotalStock){
+         let getCartItems = cartItems.items || [] ;
+
+    if(getCartItems.length){
+      const indexOfCurrentItem = getCartItems.findIndex(item=>item.productId === getCurrentProductId);
+      if(indexOfCurrentItem > -1){
+          const getQuantity = getCartItems[indexOfCurrentItem].quantity;
+          if(getQuantity + 1 > getTotalStock){
+             toast(
+                    <div className="flex gap-3 items-center">
+                      <p className="text-[16px] font-semibold text-red-600">
+                        {`Only ${getQuantity} quantity can be added for this item`}
+                      </p>
+                    </div>,
+                    {
+                        duration: 8000, 
+                    }
+                  );
+                  return;
+          }
+      }
+      
+      
+    }
     dispatch(addToCart(
       {
         userId: user?.id, 
@@ -85,9 +109,15 @@ function ProductDetailsDialog({open, setOpen, productDetails}){
                              <span className="text-gray-500">(4.5)</span>
                         </div>
                         <div className="mt-5 mb-5">
-                            <Button onClick={()=> handleAddToCart(productDetails?._id)} className="buttonStyle w-full py-5">
+                            {
+                                productDetails?.totalStock === 0 ? 
+                                <Button disabled onClick={()=> handleAddToCart(productDetails?._id)} className="buttonStyle w-full py-5">
+                                    Out of Stock
+                                </Button> : <Button onClick={()=> handleAddToCart(productDetails?._id, productDetails?.totalStock)} className="buttonStyle w-full py-5">
                                 Add to cart
                             </Button>
+                            }
+                            
                         </div>
                         <Separator/>
                         <div className="max-h-[300px] overflow-auto">

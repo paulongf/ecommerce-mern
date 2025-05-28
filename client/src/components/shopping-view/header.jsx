@@ -14,7 +14,7 @@ import { Label } from "../ui/label";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "../ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { logoutUser } from "@/store/auth-slice";
 import UserCartWrapper from "./cart-wrapper";
 import { fetchCartItems } from "@/store/shop/cart-slice";
@@ -69,9 +69,11 @@ function HeaderRightContent(){
         dispatch(logoutUser());
     };
 
-    useEffect(()=> {
-     dispatch(fetchCartItems(user?.id))
-    }, [dispatch, user?.id])
+     useEffect(() => {
+    dispatch(fetchCartItems(user?.id));
+  }, [dispatch]);
+
+    //console.log(user.id)
 
     return <div className="flex lg:items-center lg:flex-row flex-col gap-4">
                 <Sheet open={openCartSheet} onOpenChange={setOpenCartSheet}>

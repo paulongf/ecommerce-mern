@@ -59,27 +59,28 @@ const fetchCartItems = async (req, res) => {
     if (!userId) {
       return res.status(400).json({
         success: false,
-        message: "User id is manadatory!",
+        message: "User id is mandatory!",
       });
     }
 
-    const cart = await Cart.findOne({ userId }).populate({
+    let cart = await Cart.findOne({ userId }).populate({
       path: "items.productId",
       select: "image title price salePrice",
     });
 
+    // Se o carrinho não existir, criamos um carrinho vazio em memória (sem salvar)
     if (!cart) {
-      return res.status(404).json({
-        success: false,
-        message: "Cart not found!",
-      });
+      cart = {
+        userId,
+        items: [],
+      };
     }
 
     const validItems = cart.items.filter(
       (productItem) => productItem.productId
     );
 
-    if (validItems.length < cart.items.length) {
+    if (cart.items.length > 0 && validItems.length < cart.items.length) {
       cart.items = validItems;
       await cart.save();
     }
@@ -96,7 +97,7 @@ const fetchCartItems = async (req, res) => {
     res.status(200).json({
       success: true,
       data: {
-        ...cart._doc,
+        ...cart._doc, 
         items: populateCartItems,
       },
     });
@@ -108,6 +109,7 @@ const fetchCartItems = async (req, res) => {
     });
   }
 };
+
 
 const updateCartItemQty = async (req, res) => {
   try {
