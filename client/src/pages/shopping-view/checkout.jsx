@@ -2,6 +2,7 @@ import Address from '@/components/shopping-view/address';
 import img from '../../assets/account.jpg'
 import { useDispatch, useSelector } from 'react-redux';
 import UserCartItemsContent from '@/components/shopping-view/cart-items-content';
+import { createNewOrder } from "@/store/shop/order-slice";
 import { Button } from '@/components/ui/button';
 import { toast } from "sonner";
 import { useState } from 'react';
@@ -17,7 +18,7 @@ function ShoppingCheckout() {
   const [isPaymentStart, setIsPaymemntStart] = useState(false);
   const dispatch = useDispatch();
 
-  console.log(currentSelectedAddress, "cartItems");
+ // console.log(currentSelectedAddress, "cartItems");
 
   const totalCartAmount =
     cartItems && cartItems.items && cartItems.items.length > 0
@@ -32,8 +33,8 @@ function ShoppingCheckout() {
         )
       : 0;
 
-  function handleInitiatePaypalPayment() {
-    if (cartItems.length === 0) {
+   function handleInitiatePaypalPayment() {
+   /*  if (cartItems.length === 0) {
       
 
       return;
@@ -42,7 +43,7 @@ function ShoppingCheckout() {
       
 
       return;
-    }
+    } */
 
     const orderData = {
       userId: user?.id,
@@ -74,6 +75,7 @@ function ShoppingCheckout() {
       paymentId: "",
       payerId: "",
     };
+    console.log(orderData)
 
     dispatch(createNewOrder(orderData)).then((data) => {
       console.log(data, "sangam");
@@ -99,7 +101,9 @@ function ShoppingCheckout() {
                 />
             </div>
                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-5 p-5 mt-5'>
-                    <Address setCurrentSelectedAddress={setCurrentSelectedAddress}/>
+                    <Address
+                    selectedId={currentSelectedAddress} 
+                    setCurrentSelectedAddress={setCurrentSelectedAddress}/>
                     <div className='flex flex-col gap-4 '>
                         {
                             cartItems && cartItems.items && cartItems.items.length > 0 ?
