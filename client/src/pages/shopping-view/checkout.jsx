@@ -34,16 +34,30 @@ function ShoppingCheckout() {
       : 0;
 
    function handleInitiatePaypalPayment() {
-   /*  if (cartItems.length === 0) {
-      
+    if (cartItems.length === 0) {
+        toast(
+                    <div className="flex gap-3 items-center">
+                      <p className="text-[16px] font-semibold text-red-600">Your cart is empty. Please add items to proceed.</p>
+                    </div>,
+                    {
+                        duration: 8000, 
+                    }
+                  );
 
       return;
     }
     if (currentSelectedAddress === null) {
-      
+       toast(
+                    <div className="flex gap-3 items-center">
+                      <p className="text-[16px] font-semibold text-red-600">Please select one address to proceed.</p>
+                    </div>,
+                    {
+                        duration: 8000, 
+                    }
+                  );
 
       return;
-    } */
+    }
 
     const orderData = {
       userId: user?.id,
