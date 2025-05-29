@@ -10,6 +10,7 @@ const shopCartRouter = require('./routes/shop/cart-routes');
 const addressRouter = require('./routes/shop/address-routes');
 const shopOrderRouter = require("./routes/shop/order-routes");
 const shopReviewRouter = require("./routes/shop/review-routes");
+const shopSearchRouter = require('./routes/shop/search-routes')
 
 //create a database connection -> You can also 
 // create a separate file for thids and then import/use that file
@@ -47,5 +48,6 @@ app.use('/api/shop/cart', shopCartRouter);
 app.use('/api/shop/address', addressRouter);
 app.use("/api/shop/order", shopOrderRouter);
 app.use("/api/shop/review", shopReviewRouter);
+app.use("/api/shop/search", shopSearchRouter);
 
 app.listen(PORT, ()=> console.log(`server is now running on port ${PORT}`));
